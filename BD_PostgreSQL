@@ -1,0 +1,60 @@
+@startuml
+
+class Patients {
+  patient_id: UUID <<PK>>
+  --
+  full_name: VARCHAR(255)
+  phone: VARCHAR(20)
+  email: VARCHAR(255) <<UNIQUE>>
+  birth_date: DATE
+  created_at: TIMESTAMP
+}
+
+class Doctors {
+  doctor_id: UUID <<PK>>
+  --
+  full_name: VARCHAR(255)
+  specialization: VARCHAR(100)
+  cabinet: VARCHAR(10)
+  phone: VARCHAR(20)
+  created_at: TIMESTAMP
+}
+
+class Services {
+  service_id: UUID <<PK>>
+  --
+  name: VARCHAR(255)
+  description: TEXT
+  duration_min: INTEGER
+  price: NUMERIC(10,2)
+  is_available: BOOLEAN
+  created_at: TIMESTAMP
+}
+
+class Appointments {
+  appointment_id: UUID <<PK>>
+  --
+  patient_id: UUID <<FK>>
+  doctor_id: UUID <<FK>>
+  date_time: TIMESTAMP
+  status: VARCHAR(20)
+  price: NUMERIC(10,2)
+  created_at: TIMESTAMP
+  updated_at: TIMESTAMP
+}
+
+class AppointmentServices {
+  appointment_service_id: UUID <<PK>>
+  --
+  appointment_id: UUID <<FK>>
+  service_id: UUID <<FK>>
+  quantity: INTEGER
+  created_at: TIMESTAMP
+}
+
+Patients ||--o{ Appointments
+Doctors ||--o{ Appointments
+Appointments ||--o{ AppointmentServices
+Services ||--o{ AppointmentServices
+
+@enduml
