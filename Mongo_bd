@@ -1,0 +1,47 @@
+@startuml
+
+class Appointment {
+  _id: ObjectId
+  patient: PatientRef
+  doctor: DoctorRef
+  services: Array<ServiceItem>
+  datetime: Date
+  status: string
+  price: number
+  created_at: Date
+  updated_at: Date
+}
+
+class PatientRef {
+  type: string = "patient"
+  id: ObjectId
+  full_name: string
+  phone: string
+  email: string
+}
+
+class DoctorRef {
+  type: string = "doctor"
+  id: ObjectId
+  full_name: string
+  specialization: string
+  cabinet: string
+  phone: string
+}
+
+class ServiceItem {
+  id: string
+  service_id: ObjectId
+  name: string
+  description: string
+  duration_min: number
+  price: number
+  is_available: boolean
+  quantity: number = 1
+}
+
+Appointment "1  " *-- "1" PatientRef
+Appointment "1  " *-- "1" DoctorRef
+Appointment "1 " *-- " *  " ServiceItem
+
+@enduml
